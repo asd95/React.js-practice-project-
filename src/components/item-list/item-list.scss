@@ -1,0 +1,20 @@
+.item-list {
+  .list-group {
+    font-family: "Roboto", sans-serif;
+    margin-bottom: .5rem;
+    
+    .list-group__item {
+      padding: 1rem;
+      margin-bottom: 0.3rem;
+      border-radius: 0.3rem;
+      background: lighten(#212735, 4);
+      border: 1px solid lighten(#212735, 10);
+      transition:.3s;
+      
+      &:hover {
+        cursor: pointer;
+        background: lighten(#212735, 10);
+      }
+    }
+  }
+}
