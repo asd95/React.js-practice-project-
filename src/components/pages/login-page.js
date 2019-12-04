@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-
+import './page-style.scss';
 const LoginPage = ({ isLoggedIn, onLogin }) => {
   if (isLoggedIn) {
     return <Redirect to="/" />;
