@@ -1,58 +1,41 @@
-import React, { Component } from "react";
-import Loading from "../loading";
+import React from "react";
+// import PropTypes from 'prop-types';
 
 import "./item-list.scss";
 
-export default class ItemList extends Component {
-  constructor() {
-    super();
+const ItemList = props => {
+  const { data, renderItem, onItemSelected } = props;
 
-    this.state = {
-      itemList: null
-    };
-  }
+  const itemRender = arr => {
+    return arr.map(item => {
+      const { id } = item;
+      const label = renderItem(item);
 
-  componentDidMount() {
-
-    const {getData} = this.props;
-
-    getData()
-      .then(itemList => {
-        this.setState({
-          itemList
-        });
-      })
-      .catch(error => {
-        console.log("Something wrong", error);
-      });
-  }
-
-  itemRender(arr) {
-    return arr.map(({ id, name }) => {
       return (
         <li
           className="list-group__item"
           key={id}
-          onClick={() => this.props.onItemSelected(id)}
+          onClick={() => onItemSelected(id)}
         >
-          {name}
+          {label}
         </li>
       );
     });
-  }
+  };
 
-  render() {
-    const { itemList } = this.state;
+  const items = itemRender(data);
 
-    if (!itemList) {
-      return <Loading />;
-    }
-    const items = this.itemRender(itemList);
+  return (
+    <div className="item-list">
+      <ul className="list-group">{items}</ul>
+    </div>
+  );
+};
 
-    return (
-      <div className="item-list">
-        <ul className="list-group">{items}</ul>
-      </div>
-    );
-  }
-}
+// ItemList.propTypes = {
+//   onItemSelected: PropTypes.func,
+//   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+//   renderItem: PropTypes.func
+// };
+
+export default ItemList;

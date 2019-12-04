@@ -1,3 +1,5 @@
+@import "../config-style/color";
+
 .error-message {
   width: 100%;
   height: 100%;
@@ -5,7 +7,7 @@
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  color: #E13145;
+  color: $errorMes;
 
   h1 {
     text-transform: upperCase;

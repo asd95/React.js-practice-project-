@@ -3,7 +3,7 @@ import icon from './death-star.png';
 
 import './error-message.scss';
 
-const ErrorMrssage = () => {
+const ErrorMessage = () => {
     return (
         <div className='error-message'>            
         <img src={icon} alt=""/>
@@ -14,4 +14,4 @@ const ErrorMrssage = () => {
     );
 }
 
-export default ErrorMrssage;
+export default ErrorMessage;

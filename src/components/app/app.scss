@@ -1,9 +1,21 @@
+@import '../config-style/color';
+
 body {
-  background: #38383E;
-  background: #212735;
-  color: #fff;
+  background: $background;
+  color: $color;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.app {
+  h2 {
+    color: $logoColor;
+    // display: inline-block;
+    text-align: center;
+    margin: 3rem auto 0;
+    font-size: 1.7rem;
+    font-family: "Roboto", sans-serif;
+  }
 }

@@ -1,92 +1,68 @@
 import React, { Component } from "react";
+import ErrorBoundry from "../error-boundry";
+import { SwapiServiceProvider } from "../swapi-service-context";
 import Header from "../header";
 import RandomPlanet from "../random-planet";
-import PeoplePage from "../people-page";
-import ToogleReactComponent from "../toogle-random-planet";
-import ErrorMessage from '../error-message';
 import SwapiService from "../../services/swapi-service";
-import ItemList from "../item-list";
-import PersonDetails from "../person-details";
+// import DummySwapiService from "../../services/dummy-swapi-service";
+import {
+  PeoplePage,
+  PlanetsPage,
+  StarshipsPage,
+  SecretPage,
+  LoginPage
+} from "../pages";
+import { StarshipDetails } from "../sw-components";
 
 import "./app.scss";
+
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 export default class App extends Component {
   constructor() {
     super();
 
-    this.swapi = new SwapiService();
-
     this.state = {
-      showRandomPlanet: true,
-      hasError: false,
-      selectedPerson: null  
+      swapi: new SwapiService()
     };
   }
 
-  toggleRandomPlanet = () => {
-    this.setState(state => {
-      return {
-        showRandomPlanet: !state.showRandomPlanet
-      };
-    });
-  };
+  // onServiceChange = () => {
+  //   this.setState(({ swapi }) => {
+  //     const Service =
+  //       swapi instanceof SwapiService ? DummySwapiService : SwapiService;
+  //     return {
+  //       swapi: new Service()
+  //     };
+  //   });
+  // };
 
-  onPersonSelected = id => {
-    this.setState({
-      selectedPerson: id
-    });
-  };
-
-
-  componentDidCatch() {
-    this.setState({
-      hasError: true
-    })
-  }
   render() {
-    const { showRandomPlanet, hasError, selectedPerson } = this.state;
-
-    if (hasError) {
-      return <ErrorMessage />;
-    }
-
-    const planet = showRandomPlanet ? <RandomPlanet /> : null;
-
     return (
-      <div className="container app">
-        <Header />
-        {planet}
-
-        <ToogleReactComponent toggle={this.toggleRandomPlanet} />
-
-        <div className="main-info row">
-          <PeoplePage />
-
-          <React.Fragment>
-            <div className="col-12 col-md-6">
-              <ItemList
-                onItemSelected={this.onPersonSelected}
-                getData={this.swapi.getAllPlanets}
+      <ErrorBoundry>
+        <SwapiServiceProvider value={this.state.swapi}>
+          <Router>
+            <div className="container app">
+              {/* <Header onServiceChange={this.onServiceChange} /> */}
+              <Header />
+              <RandomPlanet />
+              <Route path="/" render={() => <h2>Star Wars App</h2>} exact />
+              <Route path="/people/:id?" component={PeoplePage} />
+              <Route path="/planets" component={PlanetsPage} />
+              <Route path="/starships" exact component={StarshipsPage} />
+              <Route
+                path="/starships/:id"
+                render={({ match }) => {
+                  const { id } = match.params;
+                  return <StarshipDetails itemId={id} />;
+                }}
               />
+              <Route path='/login'/>
+              <Route path='/secret'/>
             </div>
-            <div className="col-12 col-md-6">
-              <PersonDetails personId={selectedPerson} />
-            </div>
-          </React.Fragment>
-
-          <React.Fragment>
-            <div className="col-12 col-md-6">
-              <ItemList
-                onItemSelected={this.onPersonSelected}
-                getData={this.swapi.getAllStarships}
-              />
-            </div>
-            <div className="col-12 col-md-6">
-              <PersonDetails personId={selectedPerson} />
-            </div>
-          </React.Fragment>
-        </div>
-      </div>
+          </Router>
+        </SwapiServiceProvider>
+      </ErrorBoundry>
     );
   }
 }

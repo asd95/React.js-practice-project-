@@ -1,12 +1,14 @@
+@import "../config-style/color";
+
 .random-planet {
   font-family: "Roboto", sans-serif;
   display: flex;
   flex-flow: row wrap;
-  margin-bottom: .3rem;
+  margin-bottom: 1rem;
   padding: 1rem;
   border-radius: 1rem;
-  background: lighten(#212735, 4);
-  border: 1px solid lighten(#212735, 10);
+  background: $bgItem;
+  border: $bgItemBorder;
   .planet-image {
     margin-right: 1.3rem;
     img {
@@ -28,7 +30,7 @@
 
       .planet-desc__list-item {
         padding: 0.5rem 0;
-        border-top: 1px solid lighten(#212735, 20);
+        border-top: $bgItemBorder;
       }
     }
   }
